@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物流業界レイヤー構造図</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .layer {
+            margin-bottom: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .layer:hover {
+            transform: translateY(-3px);
+        }
+        
+        .layer-header {
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 18px;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        
+        .layer-content {
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .level1 .layer-header { background: linear-gradient(135deg, #FF6B6B, #FF8E53); }
+        .level2 .layer-header { background: linear-gradient(135deg, #4ECDC4, #44A08D); }
+        .level3 .layer-header { background: linear-gradient(135deg, #45B7D1, #96C93D); }
+        .level4 .layer-header { background: linear-gradient(135deg, #96C93D, #FFA726); }
+        .level5 .layer-header { background: linear-gradient(135deg, #FFA726, #FF7043); }
+        .level6 .layer-header { background: linear-gradient(135deg, #AB47BC, #8E24AA); }
+        
+        .layer-number {
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+        
+        .item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .item-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .item-subtitle {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+        
+        .item-content {
+            font-size: 13px;
+            color: #34495e;
+            line-height: 1.4;
+        }
+        
+        .central-concept {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .axis-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .axis {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e1e8ed;
+        }
+        
+        .axis-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+            padding: 10px;
+            background: #f1f3f4;
+            border-radius: 8px;
+        }
+        
+        .function-list, .mode-list {
+            display: grid;
+            gap: 8px;
+        }
+        
+        .function-item, .mode-item {
+            padding: 8px 12px;
+            background: #e8f4fd;
+            border-radius: 6px;
+            font-size: 13px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .company-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .company-category {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e1e8ed;
+            transition: all 0.3s ease;
+        }
+
+        .company-category:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .category-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .company-list {
+            font-size: 12px;
+            color: #5a6c7d;
+            line-height: 1.6;
+        }
+        
+        .trend-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .trend-category {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #9b59b6;
+            transition: all 0.3s ease;
+        }
+
+        .trend-category:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .grid-4, .grid-3, .grid-2, .axis-container, .company-grid, .trend-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .title {
+                font-size: 22px;
+            }
+        }
+        
+        /* --- ▼▼▼ リンク化のための追加CSS ▼▼▼ --- */
+        /* リンクのデフォルトスタイル（下線、文字色）をリセット */
+        a.item, a.company-category, a.trend-category {
+            text-decoration: none; /* 下線を削除 */
+            color: inherit;      /* 親要素の文字色を継承 */
+            display: block;      /* リンクをブロック要素として扱う（レイアウト崩れ防止） */
+        }
+        
+        /* ホバー時にカーソルをポインター（指の形）に変更し、クリック可能であることを示す */
+        .item:hover, .company-category:hover, .trend-category:hover {
+            cursor: pointer;
+        }
+        /* --- ▲▲▲ 追加CSSここまで ▲▲▲ --- */
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">🚚 物流業界レイヤー構造図 📦</div>
+        
+        <!-- Level 1 -->
+        <div class="layer level1">
+            <div class="layer-header">
+                <div class="layer-number">1</div>
+                最上位概念
+            </div>
+            <div class="layer-content">
+                <div class="central-concept">
+                    🌐 物流・運輸業界<br>
+                    「モノを適切な場所・時間・品質・コストで届ける」産業
+                </div>
+            </div>
+        </div>
+        
+        <!-- Level 2 -->
+        <div class="layer level2">
+            <div class="layer-header">
+                <div class="layer-number">2</div>
+                基本分類軸
+            </div>
+            <div class="layer-content">
+                <div class="axis-container">
+                    <div class="axis">
+                        <div class="axis-title">🔧 軸A：物流機能（役割・業務）</div>
+                        <div style="text-align: center; padding: 15px; background: #e8f4fd; border-radius: 8px; color: #2980b9;">
+                            「何をするか？」<br>
+                            業務プロセス・サービス内容
+                        </div>
+                    </div>
+                    <div class="axis">
+                        <div class="axis-title">🚛 軸B：輸送モード（手段・インフラ）</div>
+                        <div style="text-align: center; padding: 15px; background: #e8f4fd; border-radius: 8px; color: #2980b9;">
+                            「どうやって運ぶか？」<br>
+                            輸送手段・物理的インフラ
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Level 3A -->
+        <div class="layer level3">
+            <div class="layer-header">
+                <div class="layer-number">3A</div>
+                物流機能（12分類）
+            </div>
+            <div class="layer-content">
+                <div class="grid grid-4">
+                    <a href="details/function_transport.html" class="item">
+                        <div class="item-title">🚚 1. 輸送</div>
+                        <div class="item-content">幹線・地域配送・配車管理</div>
+                    </a>
+                    <a href="details/function_warehouse.html" class="item">
+                        <div class="item-title">🏪 2. 倉庫運営</div>
+                        <div class="item-content">入庫・在庫管理・ピッキング</div>
+                    </a>
+                    <a href="details/function_handling.html" class="item">
+                        <div class="item-title">📦 3. 荷役</div>
+                        <div class="item-content">仕分け・積み下ろし・搬送</div>
+                    </a>
+                    <a href="details/function_processing.html" class="item">
+                        <div class="item-title">🏷️ 4. 流通加工</div>
+                        <div class="item-content">ラベル貼り・セット組み・検品</div>
+                    </a>
+                    <a href="details/function_packaging.html" class="item">
+                        <div class="item-title">📦 5. 梱包・包装</div>
+                        <div class="item-content">緩衝材・保冷・個装対応</div>
+                    </a>
+                    <a href="details/function_information.html" class="item">
+                        <div class="item-title">💻 6. 情報管理</div>
+                        <div class="item-content">WMS・TMS・在庫可視化</div>
+                    </a>
+                    <a href="details/function_international.html" class="item">
+                        <div class="item-title">🌍 7. 国際物流・通関</div>
+                        <div class="item-content">フォワーディング・通関・B/L</div>
+                    </a>
+                    <a href="details/function_customer.html" class="item">
+                        <div class="item-title">📞 8. 顧客対応・BPO</div>
+                        <div class="item-content">問合せ・再配達・返品処理</div>
+                    </a>
+                    <a href="details/function_sustainability.html" class="item">
+                        <div class="item-title">🌱 9. サステナビリティ</div>
+                        <div class="item-content">CO2管理・モーダルシフト</div>
+                    </a>
+                    <a href="details/function_planning.html" class="item">
+                        <div class="item-title">📊 10. 企画・改善</div>
+                        <div class="item-content">動線設計・KPI管理・安全</div>
+                    </a>
+                    <a href="details/function_dx.html" class="item">
+                        <div class="item-title">🤖 11. DX推進</div>
+                        <div class="item-content">自動化・AI・ロボティクス</div>
+                    </a>
+                    <a href="details/function_management.html" class="item">
+                        <div class="item-title">👥 12. マネジメント</div>
+                        <div class="item-content">センター長・部門管理・統括</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Level 3B -->
+        <div class="layer level3">
+            <div class="layer-header">
+                <div class="layer-number">3B</div>
+                輸送モード（7分類）
+            </div>
+            <div class="layer-content">
+                <div class="grid grid-3">
+                    <a href="details/mode_truck.html" class="item">
+                        <div class="item-title">🚛 1. トラック輸送</div>
+                        <div class="item-content">国内物流の主力（約9割）<br>小型・中型・大型・トレーラー</div>
+                    </a>
+                    <a href="details/mode_rail.html" class="item">
+                        <div class="item-title">🚆 2. 鉄道輸送</div>
+                        <div class="item-content">長距離・大量・環境配慮<br>コンテナ・貨物列車</div>
+                    </a>
+                    <a href="details/mode_sea.html" class="item">
+                        <div class="item-title">🚢 3. 海上輸送</div>
+                        <div class="item-content">国際貿易・内航・離島<br>コンテナ船・フェリー・バルク</div>
+                    </a>
+                    <a href="details/mode_air.html" class="item">
+                        <div class="item-title">✈️ 4. 航空輸送</div>
+                        <div class="item-content">高速・高付加価値・緊急<br>貨物専用機・旅客機貨物室</div>
+                    </a>
+                    <a href="details/mode_inland_water.html" class="item">
+                        <div class="item-title">🛥️ 5. 内陸水運</div>
+                        <div class="item-content">河川・運河輸送<br>バージ船・小型船舶</div>
+                    </a>
+                    <a href="details/mode_pipeline.html" class="item">
+                        <div class="item-title">🛢️ 6. パイプライン</div>
+                        <div class="item-content">液体・気体の定量輸送<br>原油・ガス・化学品</div>
+                    </a>
+                    <a href="details/mode_light_vehicle.html" class="item">
+                        <div class="item-title">🏍️ 7. 二輪・軽車両</div>
+                        <div class="item-content">都市部・緊急配送<br>バイク便・自転車・軽バン</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Level 5 -->
+        <div class="layer level5">
+            <div class="layer-header">
+                <div class="layer-number">5</div>
+                企業分類（ビジネスモデル別）
+            </div>
+            <div class="layer-content">
+                <div class="company-grid">
+                    <a href="details/bizmodel_3pl.html" class="company-category">
+                        <div class="category-title">🏢 A. 総合物流企業（3PL）</div>
+                        <div class="company-list">日本通運、ロジスティード<br>センコー、SBSホールディングス</div>
+                    </a>
+                    <a href="details/bizmodel_delivery.html" class="company-category">
+                        <div class="category-title">📮 B. 宅配・小口配送</div>
+                        <div class="company-list">ヤマト運輸、佐川急便<br>日本郵便、福山通運</div>
+                    </a>
+                    <a href="details/bizmodel_specialized.html" class="company-category">
+                        <div class="category-title">🚛 C. 専業輸送企業</div>
+                        <div class="company-list">セイノー、名鉄運輸<br>丸全昭和運輸、トナミ運輸</div>
+                    </a>
+                    <a href="details/bizmodel_international.html" class="company-category">
+                        <div class="category-title">🌍 D. 海運・国際物流</div>
+                        <div class="company-list">商船三井、日本郵船、川崎汽船<br>近鉄エクスプレス、山九</div>
+                    </a>
+                    <a href="details/bizmodel_warehouse.html" class="company-category">
+                        <div class="category-title">🏪 E. 倉庫・不動産</div>
+                        <div class="company-list">プロロジス、日本GLP<br>三井倉庫、三菱倉庫</div>
+                    </a>
+                    <a href="details/bizmodel_food.html" class="company-category">
+                        <div class="category-title">🍱 F. 食品・特殊物流</div>
+                        <div class="company-list">ニチレイロジ、キユーソー流通<br>F-LINE、日本アクセス</div>
+                    </a>
+                    <a href="details/bizmodel_ec.html" class="company-category">
+                        <div class="category-title">🛒 G. ECフルフィルメント</div>
+                        <div class="company-list">Amazonロジスティクス<br>楽天ロジスティクス</div>
+                    </a>
+                    <a href="details/bizmodel_it.html" class="company-category">
+                        <div class="category-title">💻 H. IT・DX関連</div>
+                        <div class="company-list">オプティマインド、HACOBU<br>日立物流ソフトウェア、トランコム</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Level 6 -->
+        <div class="layer level6">
+            <div class="layer-header">
+                <div class="layer-number">6</div>
+                業界トレンド・課題（横断要素）
+            </div>
+            <div class="layer-content">
+                <div class="trend-grid">
+                    <a href="details/trend_labor.html" class="trend-category">
+                        <div class="item-title">👥 人材・労働</div>
+                        <div class="item-content">
+                            • ドライバー不足・高齢化<br>
+                            • 2024年問題（働き方改革）<br>
+                            • 外国人材活用・多様性
+                        </div>
+                    </a>
+                    <a href="details/trend_dx.html" class="trend-category">
+                        <div class="item-title">🤖 テクノロジー・DX</div>
+                        <div class="item-content">
+                            • 自動化・ロボティクス<br>
+                            • AI・データ活用<br>
+                            • IoT・可視化技術
+                        </div>
+                    </a>
+                    <a href="details/trend_market.html" class="trend-category">
+                        <div class="item-title">🛒 顧客・市場変化</div>
+                        <div class="item-content">
+                            • EC拡大・再配達問題<br>
+                            • BtoB需要変化<br>
+                            • 顧客体験向上ニーズ
+                        </div>
+                    </a>
+                    <a href="details/trend_sustainability.html" class="trend-category">
+                        <div class="item-title">🌱 環境・サステナビリティ</div>
+                        <div class="item-content">
+                            • CO2削減・脱炭素<br>
+                            • モーダルシフト推進<br>
+                            • ESG経営・開示圧力
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px; color: #7f8c8d;">
+            💡 <strong>活用ポイント</strong><br>
+            各企業は複数のレイヤーにまたがって事業展開しています。<br>
+            この構造図で「機能×手段×課題」の立体的な把握が可能です。
+        </div>
+    </div>
+</body>
+</html>
