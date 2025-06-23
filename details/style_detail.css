@@ -107,8 +107,9 @@ body {
     .detail-section h2 {
         font-size: 20px;
     }
+}
 
-    /* --- ▼▼▼ コンテンツ拡充のための追加スタイル ▼▼▼ --- */
+/* --- ▼▼▼ コンテンツ拡充のための追加スタイル（正しい場所） ▼▼▼ --- */
 
 /* テーブル全体のスタイル */
 table {
@@ -169,4 +170,4 @@ tbody tr:nth-child(even) {
     text-decoration: underline;
     color: #2980b9;
 }
-}
+/* --- ▲▲▲ 追加スタイルここまで ▲▲▲ --- */
