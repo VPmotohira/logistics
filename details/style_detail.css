@@ -107,4 +107,66 @@ body {
     .detail-section h2 {
         font-size: 20px;
     }
+
+    /* --- ▼▼▼ コンテンツ拡充のための追加スタイル ▼▼▼ --- */
+
+/* テーブル全体のスタイル */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden; /* 角丸を有効にするため */
+}
+
+/* テーブルのヘッダーとセルのスタイル */
+th, td {
+    border: 1px solid #e1e8ed;
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* テーブルヘッダーのスタイル */
+th {
+    background-color: #f1f3f4;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+/* テーブルのデータ行（奇数行）の背景色 */
+tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+/* テーブルのデータ行（偶数行）の背景色 */
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* 箇条書きリストのスタイル調整 */
+.detail-section ul {
+    list-style-position: outside;
+    padding-left: 20px;
+}
+
+.detail-section ul li {
+    background: transparent; /* 既存のスタイルをリセット */
+    border-left: none; /* 既存のスタイルをリセット */
+    padding: 6px 0;
+    margin-bottom: 4px;
+    list-style-type: disc; /* 標準的な黒丸リストにする */
+}
+
+/* 外部リンクのスタイル */
+.detail-section a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+}
+.detail-section a:hover {
+    text-decoration: underline;
+    color: #2980b9;
+}
 }
